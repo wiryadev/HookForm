@@ -6,8 +6,11 @@ import React, { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { Appbar, Button, HelperText, TextInput, useTheme } from 'react-native-paper'
+import { useSelector } from 'react-redux'
 import DropdownMenu from '../../components/DropdownMenu'
 import TextField from '../../components/TextField'
+import { useGetRanksQuery } from '../../services/rankApi'
+import { usePostUserMutation } from '../../services/userApi'
 import validationSchema from './validationSchema'
 
 
@@ -40,7 +43,9 @@ const FormScreen = ({ navigation }) => {
 
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
-  const [gender, setGender] = useState('')
+  const [rank, setRank] = useState('')
+
+  const [postUser] = usePostUserMutation()
 
   const genderList = [
     {
@@ -53,6 +58,22 @@ const FormScreen = ({ navigation }) => {
     },
   ]
 
+  const data = useGetRanksQuery().data
+  console.log('getRanks', data)
+  // useEffect(() => {
+    
+  // }, [])
+  
+  const ranks = useSelector((state) => state.rank.ranks)
+  console.log('ranks', ranks)
+
+  const ranksDropDown = ranks.map((item) => {
+    return {
+      label: item.name,
+      value: item.id
+    }
+  })
+
   const handleBornDateSave = () => {
     setValue('born_date', date, { shouldValidate: true })
     setShowDate(false)
@@ -63,6 +84,7 @@ const FormScreen = ({ navigation }) => {
       ...values,
       born_date: dayjs(values.born_date).format('DD MMMM YYYY')
     }
+    postUser(payload)
     console.log('payload', payload)
   }
 
@@ -166,20 +188,10 @@ const FormScreen = ({ navigation }) => {
             control={control}
           />
           <DropdownMenu
-            label="Rank"
-            list={genderList}
-            value={gender}
-            setValue={setGender}
-            mode="outlined"
-            style={{
-              marginBottom: 16
-            }}
-          />
-          <DropdownMenu
             label="Status"
-            list={genderList}
-            value={gender}
-            setValue={setGender}
+            list={ranksDropDown}
+            value={rank}
+            setValue={setRank}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16

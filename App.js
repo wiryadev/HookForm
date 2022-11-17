@@ -7,6 +7,8 @@ import {
   MD3LightTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 import Router from './src/router';
 
 
@@ -26,9 +28,11 @@ const CombinedDefaultTheme = {
 export default function App() {
   return (
     <PaperProvider theme={CombinedDefaultTheme}>
-      <NavigationContainer theme={CombinedDefaultTheme}>
-        <Router />
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer theme={CombinedDefaultTheme}>
+          <Router />
+        </NavigationContainer>
+      </Provider>
     </PaperProvider>
   );
 }
