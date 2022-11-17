@@ -121,54 +121,29 @@ const FormScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
             {showDate && (
-              <View>
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  is24Hour
-                  mode="date"
-                  positiveButton={{
-                    label: 'OK',
-                    textColor: 'green'
-                  }}
-                  negativeButton={{
-                    label: 'Cancel',
-                    textColor: 'red'
-                  }}
-                  display="spinner"
-                  onChange={(_, date) => {
-                    setShowDate(false)
-                    setDate(date)
-                  }}
-                />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end'
-                  }}
-                >
-                  <Button
-                    onPress={() => setShowDate(false)}
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    onPress={handleBornDateSave}
-                  >
-                    Save
-                  </Button>
-                </View>
-              </View>
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                is24Hour
+                mode="date"
+                positiveButton={{
+                  label: 'OK',
+                  textColor: 'green'
+                }}
+                negativeButton={{
+                  label: 'Cancel',
+                  textColor: 'red',
+                }}
+                display="default"
+                onChange={(_, date) => {
+                  console.log('DateTimePicker', date)
+                  setShowDate(false)
+                  setDate(date)
+                  handleBornDateSave()
+                }}
+              />
             )}
-            <HelperText
-              type="error"
-              visible={formState.errors}
-              style={{ fontSize: 12 }}
-            >
-              {formState.errors?.message}
-            </HelperText>
-
-            {/* <ErrorMessage
+            <ErrorMessage
               errors={formState.errors}
               name="born_date"
               render={({ message }) => (
@@ -180,7 +155,7 @@ const FormScreen = ({ navigation }) => {
                   {message}
                 </HelperText>
               )}
-            /> */}
+            />
           </View>
 
           <TextField

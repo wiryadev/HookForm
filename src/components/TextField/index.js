@@ -19,12 +19,15 @@ const TextField = ({
         value={field.value}
         {...props}
       />
-      {/* <ErrorMessage
-        errors={ }
-      /> */}
-      <HelperText visible={errors} type='error'>
-        {errors?.message}
-      </HelperText>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <HelperText type="error" visible={!!message} style={{ fontSize: 12 }}>
+            {message}
+          </HelperText>
+        )}
+      />
     </View>
   )
 }
