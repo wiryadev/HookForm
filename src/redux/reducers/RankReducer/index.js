@@ -8,10 +8,13 @@ const initialState = {
 const RankReducer = createReducer(initialState, (builder) => {
   builder.addMatcher(
     rankApi.endpoints.getRanks.matchFulfilled,
-    (state, action) => ({
-      ...state,
-      ranks: action.payload.data.data,
-    })
+    (state, action) => {
+      console.log('RankReducer', action.payload.data)
+      return {
+        ...state,
+        ranks: action.payload.data,
+      }
+    }
   )
 })
 

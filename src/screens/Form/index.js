@@ -47,22 +47,8 @@ const FormScreen = ({ navigation }) => {
 
   const [postUser] = usePostUserMutation()
 
-  const genderList = [
-    {
-      label: 'Male',
-      value: 'male'
-    },
-    {
-      label: 'Female',
-      value: 'female'
-    },
-  ]
-
   const data = useGetRanksQuery().data
   console.log('getRanks', data)
-  // useEffect(() => {
-    
-  // }, [])
   
   const ranks = useSelector((state) => state.rank.ranks)
   console.log('ranks', ranks)

@@ -4,7 +4,7 @@ export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => ({
-        url: '/api/pers?perPage=20',
+        url: '/api/pers',
         method: 'GET',
       })
     }),
