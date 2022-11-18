@@ -8,6 +8,7 @@ import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { Appbar, Button, HelperText, TextInput, useTheme } from 'react-native-paper'
 import { useSelector } from 'react-redux'
 import DropdownMenu from '../../components/DropdownMenu'
+import Spacer from '../../components/Spacer'
 import TextField from '../../components/TextField'
 import { useGetRanksQuery } from '../../services/rankApi'
 import { useGetStatusesQuery } from '../../services/statusApi'
@@ -123,19 +124,21 @@ const FormScreen = ({ navigation }) => {
             keyboardType="number-pad"
             control={control}
           />
+          <Spacer height={16} />
           <TextField
             name="name"
             label="Nama Personil"
             mode="outlined"
             control={control}
           />
+          <Spacer height={16} />
           <TextField
             name="born_place"
             label="Tempat Lahir"
             mode="outlined"
             control={control}
           />
-
+          <Spacer height={16} />
           <View>
             <TouchableOpacity onPress={() => setShowDate(true)}>
               <TextInput
@@ -184,7 +187,7 @@ const FormScreen = ({ navigation }) => {
               )}
             />
           </View>
-
+          <Spacer height={16} />
           <TextField
             multiline
             name="address"
@@ -192,30 +195,29 @@ const FormScreen = ({ navigation }) => {
             mode="outlined"
             control={control}
           />
+          <Spacer height={16} />
           <DropdownMenu
             label="Rank"
             name="rank_id"
             control={control}
             list={ranksDropDown}
-            // value={rank}
-            // setValue={setRank}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16
             }}
           />
+          <Spacer height={16} />
           <DropdownMenu
             label="Status"
             name="status_id"
             list={statusesDropDown}
             control={control}
-            // value={status}
-            // setValue={setStatus}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16
             }}
           />
+          <Spacer height={36} />
           <Button
             onPress={handleSubmit(onSubmit)}
             mode='contained-tonal'
