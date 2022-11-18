@@ -53,7 +53,7 @@ const FormScreen = ({ navigation }) => {
   console.log('getRanks', data)
 
   useGetStatusesQuery()
-  
+
   const ranks = useSelector((state) => state.rank.ranks)
   console.log('ranks', ranks)
 
@@ -79,12 +79,18 @@ const FormScreen = ({ navigation }) => {
   }
 
   const onSubmit = (values) => {
-    console.log('values', values)
     const payload = {
       ...values,
       born_date: dayjs(values.born_date).format('DD MMMM YYYY')
     }
+    console.log('payload', payload)
     postUser(payload)
+      .unwrap()
+      .then((_) => navigation.goBack())
+      .catch((err) => {
+        console.log('error', err)
+        Alert.alert('Error', err.data.error)
+      })
   }
 
   useEffect(() => {
@@ -188,9 +194,11 @@ const FormScreen = ({ navigation }) => {
           />
           <DropdownMenu
             label="Rank"
+            name="rank_id"
+            control={control}
             list={ranksDropDown}
-            value={rank}
-            setValue={setRank}
+            // value={rank}
+            // setValue={setRank}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16
@@ -198,9 +206,11 @@ const FormScreen = ({ navigation }) => {
           />
           <DropdownMenu
             label="Status"
+            name="status_id"
             list={statusesDropDown}
-            value={status}
-            setValue={setStatus}
+            control={control}
+            // value={status}
+            // setValue={setStatus}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16
