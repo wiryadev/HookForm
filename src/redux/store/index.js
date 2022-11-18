@@ -4,6 +4,7 @@ import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from "redux-persist
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import { rankApi } from "../../services/rankApi";
+import { statusApi } from "../../services/statusApi";
 import { userApi } from "../../services/userApi";
 import reducers from "../reducers";
 
@@ -24,6 +25,7 @@ const store = configureStore({
   })
     .concat(userApi.middleware)
     .concat(rankApi.middleware)
+    .concat(statusApi.middleware)
 })
 
 const persistor = persistStore(store)

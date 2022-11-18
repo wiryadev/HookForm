@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import DropdownMenu from '../../components/DropdownMenu'
 import TextField from '../../components/TextField'
 import { useGetRanksQuery } from '../../services/rankApi'
+import { useGetStatusesQuery } from '../../services/statusApi'
 import { usePostUserMutation } from '../../services/userApi'
 import validationSchema from './validationSchema'
 
@@ -44,16 +45,28 @@ const FormScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [rank, setRank] = useState('')
+  const [status, setStatus] = useState('')
 
   const [postUser] = usePostUserMutation()
 
   const data = useGetRanksQuery().data
   console.log('getRanks', data)
+
+  useGetStatusesQuery()
   
   const ranks = useSelector((state) => state.rank.ranks)
   console.log('ranks', ranks)
 
   const ranksDropDown = ranks.map((item) => {
+    return {
+      label: item.name,
+      value: item.id
+    }
+  })
+
+  const statuses = useSelector((state) => state.status.statuses)
+  console.log('statuses', statuses)
+  const statusesDropDown = statuses.map((item) => {
     return {
       label: item.name,
       value: item.id
@@ -66,12 +79,12 @@ const FormScreen = ({ navigation }) => {
   }
 
   const onSubmit = (values) => {
+    console.log('values', values)
     const payload = {
       ...values,
       born_date: dayjs(values.born_date).format('DD MMMM YYYY')
     }
     postUser(payload)
-    console.log('payload', payload)
   }
 
   useEffect(() => {
@@ -174,10 +187,20 @@ const FormScreen = ({ navigation }) => {
             control={control}
           />
           <DropdownMenu
-            label="Status"
+            label="Rank"
             list={ranksDropDown}
             value={rank}
             setValue={setRank}
+            mode="outlined"
+            dropdownStyle={{
+              marginBottom: 16
+            }}
+          />
+          <DropdownMenu
+            label="Status"
+            list={statusesDropDown}
+            value={status}
+            setValue={setStatus}
             mode="outlined"
             dropdownStyle={{
               marginBottom: 16
