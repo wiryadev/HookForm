@@ -143,6 +143,7 @@ const FormScreen = ({ navigation }) => {
                 pointerEvents="box-none"
                 label="Tanggal Lahir"
                 mode="outlined"
+                editable={false}
                 value={
                   bornDateHook ? dayjs(bornDateHook).format('DD MMMM YYYY') : ''
                 }
