@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { Appbar, Button, HelperText, TextInput, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Appbar, Button, HelperText, TextInput, useTheme } from 'react-native-paper'
 import { useSelector } from 'react-redux'
 import DropdownMenu from '../../components/DropdownMenu'
 import Spacer from '../../components/Spacer'
@@ -45,10 +45,8 @@ const FormScreen = ({ navigation }) => {
 
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
-  const [rank, setRank] = useState('')
-  const [status, setStatus] = useState('')
 
-  const [postUser] = usePostUserMutation()
+  const [postUser, { isLoading }] = usePostUserMutation()
 
   const data = useGetRanksQuery().data
   console.log('getRanks', data)
@@ -218,12 +216,15 @@ const FormScreen = ({ navigation }) => {
             }}
           />
           <Spacer height={36} />
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            mode='contained-tonal'
-          >
-            Submit
-          </Button>
+          {isLoading
+            ? <ActivityIndicator animating />
+            : <Button
+              onPress={handleSubmit(onSubmit)}
+              mode='contained-tonal'
+            >
+              Submit
+            </Button>
+          }
         </View>
       </ScrollView>
     </View>
