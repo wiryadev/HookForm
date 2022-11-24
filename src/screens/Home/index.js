@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { FlatList, View } from 'react-native'
 import { Appbar, Text, useTheme } from 'react-native-paper'
@@ -7,11 +8,19 @@ import { useGetUsersQuery } from '../../services/userApi'
 
 const HomeScreen = ({ navigation }) => {
 
-  useGetUsersQuery()
+  const isFocused = useIsFocused()
+
+  const { data, refetch } = useGetUsersQuery({ perPage: 100, page: 1 })
+
+  useEffect(() => {
+    if (isFocused) {
+      refetch()
+    }
+  }, [isFocused])
 
   const theme = useTheme()
 
-  const users = useSelector((state) => state.user.users)
+  // const users = useSelector((state) => state.user.users)
 
   return (
     <View style={{ flex: 1 }}>
@@ -29,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </Appbar.Header>
       <FlatList
-        data={users || []}
+        data={data?.data || []}
         keyExtractor={(item) => item.id}
         ListEmptyComponent={() => (
           <View style={{ flex: 1, padding: 32, alignItems: 'center' }}>
