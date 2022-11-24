@@ -2,7 +2,7 @@ import { baseApi } from "./baseApi";
 
 export const rankApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getRanks : builder.query({
+    getRanks: builder.query({
       query: () => ({
         url: '/api/ranks',
         method: 'GET',

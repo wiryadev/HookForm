@@ -48,14 +48,7 @@ const FormScreen = ({ navigation }) => {
 
   const [postUser, { isLoading }] = usePostUserMutation()
 
-  const data = useGetRanksQuery().data
-  console.log('getRanks', data)
-
-  useGetStatusesQuery()
-
-  const ranks = useSelector((state) => state.rank.ranks)
-  console.log('ranks', ranks)
-
+  const ranks = useGetRanksQuery().data?.data
   const ranksDropDown = ranks.map((item) => {
     return {
       label: item.name,
@@ -63,8 +56,7 @@ const FormScreen = ({ navigation }) => {
     }
   })
 
-  const statuses = useSelector((state) => state.status.statuses)
-  console.log('statuses', statuses)
+  const statuses = useGetStatusesQuery().data?.data
   const statusesDropDown = statuses.map((item) => {
     return {
       label: item.name,
