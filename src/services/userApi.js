@@ -10,11 +10,21 @@ export const userApi = baseApi.injectEndpoints({
       })
     }),
     postUser: builder.mutation({
-      query: (payload) => ({
-        url: '/api/pers',
-        method: 'POST',
-        body: payload,
-      })
+      query: (payload) => {
+        const formData = new FormData();
+        for (const key in payload) {
+          formData.append(key, payload[key]);
+        }
+        return {
+          url: '/api/pers',
+          method: 'POST',
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Accept": "application/json",
+          },
+        }
+      }
     }),
   })
 })

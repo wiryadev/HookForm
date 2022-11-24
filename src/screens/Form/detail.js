@@ -4,25 +4,23 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import { ActivityIndicator, Appbar, Button, HelperText, TextInput, useTheme } from 'react-native-paper'
-import { useSelector } from 'react-redux'
 import DropdownMenu from '../../components/DropdownMenu'
 import Spacer from '../../components/Spacer'
 import TextField from '../../components/TextField'
-import { useGetRanksQuery } from '../../services/rankApi'
-import { useGetStatusesQuery } from '../../services/statusApi'
-import { usePostUserMutation } from '../../services/userApi'
 import validationSchema from './validationSchema'
+import * as ImagePicker from "expo-image-picker";
 
 
-const FormDetail = ({ 
+const FormDetail = ({
   initialValues = {},
   ranks = [],
   statuses = [],
   isLoading,
   onSubmit,
- }) => {
+  onBackPress,
+}) => {
 
   const theme = useTheme()
 
@@ -39,6 +37,11 @@ const FormDetail = ({
     name: 'born_date',
   })
 
+  const imageHook = useWatch({
+    control,
+    name: "image",
+  })
+
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
 
@@ -47,8 +50,26 @@ const FormDetail = ({
     setShowDate(false)
   }
 
+  const pickImage = async () => {
+    try {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        aspect: [4, 3],
+        quality: 0.5,
+      })
+      console.log('result', result)
+      if (!result.canceled) {
+        setValue("image", result.assets[0], { shouldValidate: true });
+      }
+    } catch (e) {
+      console.log("err", e);
+    }
+  }
+
   useEffect(() => {
     register('born_date')
+    register("image")
   }, [register])
 
   return (
@@ -57,7 +78,7 @@ const FormDetail = ({
         style={{ backgroundColor: theme.colors.primaryContainer }}
       >
         <Appbar.BackAction
-          onPress={() => navigation.goBack()}
+          onPress={onBackPress}
         />
         <Appbar.Content
           title="Add Personel"
@@ -171,6 +192,41 @@ const FormDetail = ({
               marginBottom: 16
             }}
           />
+          <Spacer height={16} />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <Image
+              style={{
+                width: 200,
+                height: 200,
+              }}
+              alt="img-content"
+              borderRadius={8}
+              source={{ uri: imageHook?.uri }}
+              resizeMode="cover"
+            />
+            <ErrorMessage
+              errors={formState.errors}
+              name="image"
+              render={({ message }) => (
+                <HelperText
+                  type="error"
+                  visible={!!message}
+                  style={{ fontSize: 12 }}
+                >
+                  {message}
+                </HelperText>
+              )}
+            />
+            <Button onPress={pickImage}>
+              Pick Image
+            </Button>
+          </View>
           <Spacer height={36} />
           {isLoading
             ? <ActivityIndicator animating />
