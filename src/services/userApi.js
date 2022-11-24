@@ -9,6 +9,18 @@ export const userApi = baseApi.injectEndpoints({
         params,
       })
     }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `api/pers/${id}`,
+        method: 'GET',
+      })
+    }),
+    deleteUserById: builder.mutation({
+      query: (id) => ({
+        url: `api/pers/${id}`,
+        method: 'DELETE',
+      })
+    }),
     postUser: builder.mutation({
       query: (payload) => {
         const formData = new FormData();
@@ -29,4 +41,9 @@ export const userApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useGetUsersQuery, usePostUserMutation } = userApi
+export const {
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useDeleteUserByIdMutation,
+  usePostUserMutation,
+} = userApi

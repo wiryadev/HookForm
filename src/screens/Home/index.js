@@ -58,7 +58,9 @@ const HomeScreen = ({ navigation }) => {
             <UserItem
               user={item}
               onPress={() => { 
-                navigation.navigate('DetailScreen')
+                navigation.navigate('DetailScreen', {
+                  id: item.nrp
+                })
               }}
             />
           )}
