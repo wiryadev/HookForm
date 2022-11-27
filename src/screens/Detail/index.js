@@ -28,7 +28,7 @@ const DetailScreen = ({ route, navigation }) => {
         <Appbar.Action icon="delete" onPress={() => { }} />
       </Appbar.Header>
       <ScrollView>
-        {true
+        {isLoading
           ? <ActivityIndicator
               size='large'
               animating
