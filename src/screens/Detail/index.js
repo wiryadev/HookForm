@@ -9,8 +9,7 @@ const DetailScreen = ({ route, navigation }) => {
 
   const id = route.params.id
   const { data, isLoading } = useGetUserByIdQuery(id)
-  console.log('detailUser', data)
-
+  const detailUser = data?.data
 
   return (
     <View style={{ flex: 1 }}>
@@ -21,7 +20,7 @@ const DetailScreen = ({ route, navigation }) => {
           onPress={() => navigation.goBack()}
         />
         <Appbar.Content
-          title={data?.name || 'Detail User'}
+          title={detailUser?.name || 'Detail User'}
         />
         <Appbar.Action icon="delete" onPress={() => { }} />
       </Appbar.Header>

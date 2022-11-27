@@ -6,3 +6,5 @@ export const baseApi = createApi({
   }),
   endpoints: () => ({})
 })
+
+export const BASE_URL = 'https://mabesal.indi.network/'
