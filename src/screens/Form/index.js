@@ -43,7 +43,7 @@ const FormScreen = ({ navigation }) => {
       ...values,
       image: {
         name: `${new Date().getTime()}.png`,
-        type: values.image.type,
+        type: `image/jpeg`,
         uri: values.image.uri,
       },
       born_date: dayjs(values.born_date).format('DD MMMM YYYY'),
